@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071321">
+<meta name="description" content="EA LUBHO — universal Expert Advisor management hub.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EA LUBHO">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>EA LUBHO | Robot Management Hub</title>
+<style>
+:root{--bg:#071321;--panel:#0d1d2e;--panel2:#10253a;--line:#1d3850;--blue:#20b8f2;--cyan:#70d9ff;--text:#eff7fc;--muted:#8da5b8;--green:#35d49a;--amber:#ffc45d;--red:#ff6476;--shadow:0 18px 48px #0005}
+*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:radial-gradient(ellipse at 70% -15%,#123555 0,transparent 42%),var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;padding:24px 16px;background:#081827;border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;padding:0 10px 28px}.brand-mark{width:39px;height:39px;border-radius:13px;background:linear-gradient(145deg,#29c8ff,#0876bd);display:grid;place-items:center;color:#03111e;font-weight:1000;font-size:20px;box-shadow:0 0 24px #20b8f244}.brand strong{font-size:17px;letter-spacing:1.6px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px}
+.nav-label{color:#607d94;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:15px 12px 7px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#9eb2c3;text-align:left;padding:11px 13px;border-radius:11px;display:flex;align-items:center;gap:12px;font-weight:650}.nav button:hover,.nav button.active{background:#12304a;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--blue)}.ico{width:19px;text-align:center;color:var(--cyan);font-size:16px}.side-bottom{margin-top:auto}.connection{border:1px solid var(--line);background:#0c2032;border-radius:13px;padding:13px;margin:12px 3px}.connection b{font-size:12px}.connection p{margin:5px 0 0;color:var(--muted);font-size:11px}
+.main{margin-left:248px;min-height:100vh;padding:26px clamp(18px,3vw,42px) 54px;max-width:1700px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:27px}.eyebrow{color:var(--cyan);font-size:10px;font-weight:850;letter-spacing:2px;text-transform:uppercase}.page-title{font-size:clamp(23px,3vw,31px);margin:3px 0 0;letter-spacing:-.7px}.top-actions{display:flex;gap:9px;align-items:center}.status-pill,.tag{border:1px solid var(--line);background:#0c2032;color:#a9c1d3;padding:7px 10px;border-radius:30px;font-size:11px;font-weight:750;white-space:nowrap}.status-pill i{display:inline-block;width:7px;height:7px;background:var(--amber);border-radius:50%;margin-right:6px}.avatar{width:37px;height:37px;border-radius:50%;background:#17476a;display:grid;place-items:center;font-weight:850;color:#bcecff}
+.view{display:none}.view.active{display:block}.hero{border:1px solid #1b4b6b;border-radius:20px;padding:25px 27px;background:linear-gradient(110deg,#102e47,#0c2033 58%,#0b1a2a);position:relative;overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px}.hero:after{content:"";position:absolute;width:280px;height:280px;border:1px solid #36bdf533;border-radius:50%;right:7%;top:-140px;box-shadow:0 0 0 28px #36bdf30a,0 0 0 58px #36bdf308}.hero-content{position:relative;z-index:1;max-width:690px}.hero h2{font-size:clamp(23px,3vw,32px);line-height:1.15;margin:9px 0}.hero p{color:#a9c1d3;max-width:600px;margin:0 0 17px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#122a40;color:#dff6ff;font-weight:750}.btn:hover{filter:brightness(1.15)}.btn.primary{background:linear-gradient(120deg,#21baf2,#087bbd);border-color:#32c8ff;color:#041321}.btn.ghost{background:transparent}.btn.danger{border-color:#793849;color:#ff9aa7;background:#301a29}.btn:disabled{opacity:.45;cursor:not-allowed}
+.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}.stat,.panel{background:linear-gradient(145deg,#0e2032,#0b1a2a);border:1px solid var(--line);border-radius:16px;padding:17px;min-width:0}.stat-head{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;font-weight:750}.stat-icon{color:var(--cyan);font-size:17px}.stat-value{font-size:27px;font-weight:850;letter-spacing:-.7px;margin:8px 0 1px}.stat-note{color:var(--muted);font-size:11px}.green{color:var(--green)}.amber{color:var(--amber)}.red{color:var(--red)}
+.two-col{grid-template-columns:minmax(0,1.4fr) minmax(270px,.8fr)}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.panel h3{font-size:15px;margin:0}.panel-sub{color:var(--muted);font-size:11px;margin-top:3px}.list{display:grid;gap:9px}.row-card{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #1b3449;background:#0b1a29;border-radius:12px;min-width:0}.robot-open-card{cursor:pointer;transition:border-color .15s,background .15s}.robot-open-card:hover,.robot-open-card:focus{border-color:var(--blue);background:#10283d;outline:none}.robot-icon{width:38px;height:38px;border-radius:12px;background:#123d5b;color:var(--cyan);display:grid;place-items:center;font-size:18px;flex:none}.row-main{min-width:0;flex:1}.row-main b{display:block;font-size:12px}.row-main small{color:var(--muted);font-size:10px}.row-end{text-align:right;flex:none}.row-end b{display:block;font-size:11px}.row-end small{color:var(--muted);font-size:10px}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:30px;padding:4px 8px;font-size:10px;font-weight:800;background:#193248;color:#b5d5e8}.badge.ok{background:#103a31;color:#6be5b5}.badge.warn{background:#45351d;color:#ffd27a}.badge.off{background:#38242d;color:#ff9aa7}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:520px}th{text-align:left;color:#7893a8;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:10px;border-bottom:1px solid var(--line)}td{padding:13px 10px;border-bottom:1px solid #193146;font-size:12px}tr:last-child td{border-bottom:0}
+.section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.empty{padding:26px;text-align:center;color:var(--muted);border:1px dashed #29465d;border-radius:13px}.empty strong{display:block;color:#dcebf5;margin-bottom:4px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px}.field label{color:#9eb5c7;font-size:11px;font-weight:750}.field input,.field select{width:100%;border:1px solid #28455d;border-radius:10px;background:#081827;color:#f1f8fc;padding:11px;outline:none}.field input:focus,.field select:focus{border-color:var(--blue)}.form-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px}
+.notice{border:1px solid #65502c;background:#2d2619;color:#f6d89c;border-radius:12px;padding:12px 14px;font-size:11px;margin:14px 0}.notice.blue{border-color:#1e5270;background:#102b40;color:#a9def7}.muted{color:var(--muted)}.large-number{font-size:35px;font-weight:900}.chart{height:170px;display:flex;align-items:end;gap:8px;padding:16px 4px 0;border-bottom:1px solid var(--line)}.bar{flex:1;min-width:8px;background:linear-gradient(0deg,#0879b9,#36c8ff);border-radius:6px 6px 0 0;opacity:.8}.chart-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;padding-top:8px}
+.mobile-head,.mobile-nav{display:none}.modal-backdrop{position:fixed;inset:0;background:#020811c9;z-index:20;display:none;align-items:center;justify-content:center;padding:18px}.modal-backdrop.open{display:flex}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:#0d2032;border:1px solid #2b4b65;border-radius:18px;padding:21px;box-shadow:var(--shadow)}.modal h3{margin:0 0 5px}.modal p{color:var(--muted);font-size:11px;margin:0 0 16px}.toast{position:fixed;bottom:25px;right:25px;background:#143b35;border:1px solid #2a8b70;color:#b8ffe5;border-radius:11px;padding:12px 16px;z-index:30;display:none;box-shadow:var(--shadow);max-width:min(380px,90vw)}.toast.show{display:block}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}}
+@media(max-width:720px){.sidebar{display:none}.main{margin:0;padding:18px 14px 92px}.mobile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.mobile-head .brand{padding:0}.topbar{margin-bottom:18px}.topbar .status-pill{display:none}.mobile-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);bottom:0;left:0;right:0;z-index:10;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#071624ed;border-top:1px solid var(--line);backdrop-filter:blur(16px)}.mobile-nav button{background:none;border:0;color:#7f9aaf;font-size:9px;font-weight:750;padding:5px 1px}.mobile-nav button span{display:block;font-size:19px;margin-bottom:2px}.mobile-nav button.active{color:var(--cyan)}.hero{padding:20px}.hero:after{right:-130px}.section-grid,.form-grid{grid-template-columns:1fr}.top-actions .btn{padding:8px 10px}.stat-value{font-size:24px}.panel{padding:14px}}
+@media(max-width:380px){.stats{gap:8px}.stat{padding:12px}.stat-value{font-size:21px}.top-actions .tag{display:none}}
+
+.code-editor{width:100%;min-height:340px;resize:vertical;border:1px solid #28455d;border-radius:12px;background:#06111d;color:#d8f3ff;padding:15px;font:12px/1.6 ui-monospace,Consolas,monospace;outline:none}
+.studio-layout{display:grid;grid-template-columns:minmax(220px,.65fr) minmax(0,1.7fr);gap:14px}
+.studio-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+@media(max-width:850px){.studio-layout{grid-template-columns:1fr}.code-editor{min-height:280px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">L</div><div><strong>EA LUBHO</strong><small>ROBOT MANAGEMENT HUB</small></div></div>
+  <div class="nav-label">WORKSPACE</div>
+  <nav class="nav" id="sideNav">
+    <button class="active" data-view="overview"><span class="ico">⌂</span>Overview</button>
+    <button data-view="robots"><span class="ico">◈</span>Master Robot Hub</button>
+    <button data-view="brokers"><span class="ico">◎</span>Broker Connections</button>
+    <button data-view="trades"><span class="ico">↗</span>Live Trade Monitor</button>
+    <button data-view="hosting"><span class="ico">☁</span>EA Cloud Hosting</button>
+    <div class="nav-label">MANAGEMENT</div>
+    <button data-view="licenses"><span class="ico">⌑</span>Licence Centre</button>
+    <button data-view="analytics"><span class="ico">▥</span>Analytics Centre</button>
+    <button data-view="notifications"><span class="ico">♧</span>Notifications</button>
+    <button data-view="admin"><span class="ico">⚙</span>Super Admin</button>
+    <button data-view="ea-studio"><span class="ico">⌘</span>EA Development Studio</button>
+  </nav>
+  <div class="side-bottom">
+    <div class="connection"><b>● Platform status: Prototype</b><p>Broker and cloud services are not connected in this build.</p></div>
+    <button class="btn ghost" style="width:100%" id="installSide" hidden>＋ Install app</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="mobile-head">
+    <div class="brand"><div class="brand-mark">L</div><div><strong>EA LUBHO</strong><small>ROBOT HUB</small></div></div>
+    <span class="badge warn">DEMO UI</span>
+  </div>
+  <header class="topbar">
+    <div><div class="eyebrow">Universal Expert Advisor Platform</div><h1 class="page-title" id="pageTitle">Overview</h1></div>
+    <div class="top-actions"><span class="status-pill"><i></i>Prototype · Offline connectors</span><span class="tag">ADMIN PREVIEW</span><div class="avatar">A</div></div>
+  </header>
+
+  <section class="view active" id="view-overview">
+    <div class="hero"><div class="hero-content"><div class="eyebrow">WELCOME TO YOUR CONTROL CENTRE</div><h2>One hub. Multiple robots. Multiple brokers.</h2><p>Manage supported Expert Advisors, prepare broker connections, review account activity and control your LUBHO workspace from one responsive app.</p><div class="actions"><button class="btn primary" data-go="robots">Explore Robot Hub →</button><button class="btn ghost" data-go="brokers">＋ Add broker profile</button></div></div></div>
+    <div class="grid stats">
+      <div class="stat"><div class="stat-head">REGISTERED ROBOTS <span class="stat-icon">◈</span></div><div class="stat-value" id="robotCount">2</div><div class="stat-note">Sample workspace records</div></div>
+      <div class="stat"><div class="stat-head">BROKER PROFILES <span class="stat-icon">◎</span></div><div class="stat-value" id="brokerCount">0</div><div class="stat-note">No live broker sessions</div></div>
+      <div class="stat"><div class="stat-head">ACTIVE LICENCES <span class="stat-icon">⌑</span></div><div class="stat-value" id="licenseCount">0</div><div class="stat-note">Locally generated demo keys</div></div>
+      <div class="stat"><div class="stat-head">CLOUD INSTANCES <span class="stat-icon">☁</span></div><div class="stat-value">0</div><div class="stat-note">Hosting not connected</div></div>
+    </div>
+    <div class="grid two-col">
+      <div class="panel"><div class="panel-head"><div><h3>Robot activity</h3><div class="panel-sub">Example entries — not connected to MT5</div></div><button class="btn ghost" data-go="robots">View all</button></div><div class="list" id="overviewRobots"></div></div>
+      <div class="panel"><div class="panel-head"><div><h3>Platform checklist</h3><div class="panel-sub">What is ready in this prototype</div></div><span class="badge warn">BUILD 0.2</span></div><div class="list">
+        <div class="row-card"><span class="badge ok">READY</span><div class="row-main"><b>Responsive app interface</b><small>Mobile and desktop layouts</small></div></div>
+        <div class="row-card"><span class="badge ok">READY</span><div class="row-main"><b>Local demo controls</b><small>Sample data and interface navigation</small></div></div>
+        <div class="row-card"><span class="badge warn">NEXT</span><div class="row-main"><b>Secure user accounts</b><small>Backend authentication required</small></div></div>
+        <div class="row-card"><span class="badge warn">NEXT</span><div class="row-main"><b>MT5 connector and cloud runner</b><small>Execution service required</small></div></div>
+      </div></div>
+    </div>
+    <div class="notice blue">Safety note: this is a working front-end prototype. It does not connect to a broker, place trades, host EAs continuously, or create server-validated licence keys yet.</div>
+  </section>
+
+  <section class="view" id="view-robots">
+    <div class="panel"><div class="panel-head"><div><h3>Master Robot Hub</h3><div class="panel-sub">Register and organise your Expert Advisors.</div></div><button class="btn primary" id="addRobot">＋ Add robot</button></div><div class="table-wrap"><table><thead><tr><th>Robot</th><th>Platform</th><th>Version</th><th>Mode</th><th>Status</th><th>Action</th></tr></thead><tbody id="robotTable"></tbody></table></div><div class="notice">Robot entries are local demo records. Uploading, distributing or running an EA requires a secure backend and a compatible MT4/MT5 terminal.</div></div>
+  </section>
+
+  <section class="view" id="view-lubho-core">
+    <div class="hero"><div class="hero-content"><div class="eyebrow">MASTER CONTROL MODULE</div><h2>LUBHO Core</h2><p>The central workspace for organising robots, broker profiles, licences and platform activity.</p><div class="actions"><button class="btn primary" data-go="robots">Open Master Robot Hub →</button><button class="btn ghost" data-go="admin">Super Admin Dashboard</button></div></div></div>
+    <div class="grid section-grid">
+      <div class="panel"><h3>Robot management</h3><div class="panel-sub">Keep your supported EAs organised in one catalogue.</div><div class="list" style="margin-top:14px"><div class="row-card"><span class="robot-icon">◈</span><div class="row-main"><b>Master Robot Hub</b><small>Robot catalogue and platform versions</small></div><button class="btn ghost" data-go="robots">Open</button></div></div></div>
+      <div class="panel"><h3>Platform services</h3><div class="panel-sub">Management areas included in the prototype.</div><div class="list" style="margin-top:14px"><div class="row-card"><div class="row-main"><b>Broker Connections</b><small>Broker profiles and compatibility planning</small></div><button class="btn ghost" data-go="brokers">Open</button></div><div class="row-card"><div class="row-main"><b>Licence Centre</b><small>Local demo key generation</small></div><button class="btn ghost" data-go="licenses">Open</button></div><div class="row-card"><div class="row-main"><b>Analytics Centre</b><small>Performance view placeholder</small></div><button class="btn ghost" data-go="analytics">Open</button></div></div></div>
+    </div>
+    <div class="notice blue">LUBHO Core is currently a front-end management prototype. Secure accounts, server licences and MT4/MT5 connections still need a backend.</div>
+  </section>
+
+  <section class="view" id="view-jumbo-scalper">
+    <div class="hero"><div class="hero-content"><div class="eyebrow">ROBOT WORKSPACE · MT5</div><h2>Jumbo Scalper</h2><p>Manage the robot profile and prepare its demo configuration. These controls save settings in this browser only; they do not connect to MT5 or place trades.</p><span class="badge warn" id="jumboStatus">NOT CONNECTED · DEMO UI</span><div class="actions" style="margin-top:14px"><button class="btn primary" id="jumboDemoToggle">Enable demo workspace</button><button class="btn ghost" data-go="ea-studio">Open EA Development Studio →</button></div></div></div>
+    <div class="grid stats">
+      <div class="stat"><div class="stat-head">ROBOT VERSION</div><div class="stat-value">3.0</div><div class="stat-note">Draft profile</div></div>
+      <div class="stat"><div class="stat-head">MT5 CONNECTION</div><div class="stat-value amber" style="font-size:20px">Offline</div><div class="stat-note">Connector not installed</div></div>
+      <div class="stat"><div class="stat-head">OPEN POSITIONS</div><div class="stat-value">—</div><div class="stat-note">No terminal data</div></div>
+      <div class="stat"><div class="stat-head">TODAY P/L</div><div class="stat-value">—</div><div class="stat-note">No verified account data</div></div>
+    </div>
+    <div class="grid two-col">
+      <div class="panel"><div class="panel-head"><div><h3>Trading configuration</h3><div class="panel-sub">Saved locally as a planning profile.</div></div><span class="badge warn">NOT SENT TO MT5</span></div>
+        <div class="form-grid">
+          <div class="field"><label for="jumboSymbol">SYMBOL</label><input id="jumboSymbol" value="XAUUSD" placeholder="e.g. XAUUSD.m"></div>
+          <div class="field"><label for="jumboTimeframe">TIMEFRAME</label><select id="jumboTimeframe"><option>M1</option><option selected>M5</option><option>M15</option><option>M30</option><option>H1</option></select></div>
+          <div class="field"><label for="jumboRisk">RISK LIMIT (%)</label><input id="jumboRisk" type="number" min="0.1" max="2" step="0.1" value="0.5"></div>
+          <div class="field"><label for="jumboMaxTrades">MAX OPEN POSITIONS</label><input id="jumboMaxTrades" type="number" min="1" max="5" value="2"></div>
+        </div><div class="form-actions"><button class="btn primary" id="saveJumboSettings">Save demo settings</button></div>
+        <div class="notice blue">These are configuration notes only. They do not change an EA running in MetaTrader. Keep testing in a demo environment.</div>
+      </div>
+      <div class="panel"><h3>Connection & deployment</h3><div class="panel-sub">Requirements before integration.</div><div class="list" style="margin-top:14px">
+        <div class="row-card"><span class="badge warn">OFFLINE</span><div class="row-main"><b>MT5 terminal</b><small>No terminal bridge connected</small></div></div>
+        <div class="row-card"><span class="badge warn">NOT DEPLOYED</span><div class="row-main"><b>Execution host</b><small>No always-on runtime configured</small></div></div>
+        <div class="row-card"><span class="badge warn">DRAFT</span><div class="row-main"><b>EA source package</b><small>Edit MQL5 source in the Development Studio</small></div></div>
+        <div class="row-card"><span class="badge off">NO DATA</span><div class="row-main"><b>Live trade monitor</b><small>Requires a secure MT5 connection</small></div><button class="btn ghost" data-go="trades">Open</button></div>
+      </div></div>
+    </div>
+    <div class="notice">The demo workspace button only changes this page's local display state. It does not start, stop or control trading. Never enter broker passwords into this prototype.</div>
+  </section>
+
+  <section class="view" id="view-brokers">
+    <div class="grid two-col">
+      <div class="panel"><div class="panel-head"><div><h3>Broker profiles</h3><div class="panel-sub">Prepare settings for different broker providers.</div></div><button class="btn primary" id="addBroker">＋ Add profile</button></div><div class="list" id="brokerList"><div class="empty"><strong>No broker profiles yet</strong>Add a profile to organise a connection. Do not enter your trading password in this prototype.</div></div></div>
+      <div class="panel"><h3>Universal connector design</h3><div class="panel-sub">Broker-specific details are detected by the MT5 connector once implemented.</div><div class="list" style="margin-top:14px">
+        <div class="row-card"><span class="robot-icon">⌁</span><div class="row-main"><b>Symbol mapping</b><small>Suffixes and aliases, e.g. XAUUSD / XAUUSD.m</small></div></div>
+        <div class="row-card"><span class="robot-icon">◉</span><div class="row-main"><b>Contract specifications</b><small>Digits, tick size, volume step and minimum lot</small></div></div>
+        <div class="row-card"><span class="robot-icon">⇄</span><div class="row-main"><b>Execution checks</b><small>Market status, spread and supported order types</small></div></div>
+        <div class="row-card"><span class="robot-icon">▣</span><div class="row-main"><b>Account mode</b><small>Hedging/netting and account currency</small></div></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-trades">
+    <div class="panel"><div class="panel-head"><div><h3>Live Trade Monitor</h3><div class="panel-sub">Trade data will appear here after a secure MT5 connection is integrated.</div></div><span class="badge off">NOT CONNECTED</span></div><div class="grid stats"><div class="stat"><div class="stat-head">OPEN POSITIONS</div><div class="stat-value">—</div><div class="stat-note">No terminal data</div></div><div class="stat"><div class="stat-head">ACCOUNT EQUITY</div><div class="stat-value">—</div><div class="stat-note">No terminal data</div></div><div class="stat"><div class="stat-head">TODAY P/L</div><div class="stat-value">—</div><div class="stat-note">No terminal data</div></div><div class="stat"><div class="stat-head">CONNECTION</div><div class="stat-value amber" style="font-size:19px">Offline</div><div class="stat-note">Waiting for MT5 connector</div></div></div><div class="empty"><strong>No live trades to display</strong>Connect a compatible MT5 terminal through the future connector to display verified account and position data.</div></div>
+  </section>
+
+  <section class="view" id="view-hosting">
+    <div class="hero"><div class="hero-content"><div class="eyebrow">REMOTE EXECUTION</div><h2>EA Cloud Hosting</h2><p>Prepare to manage supported trading robots on remote MT5 terminals, with uptime monitoring and controlled start/stop actions.</p><span class="badge warn">HOSTING SERVICE NOT CONNECTED</span></div></div>
+    <div class="grid section-grid">
+      <div class="panel"><div class="panel-head"><h3>Hosting instances</h3><span class="badge off">0 RUNNING</span></div><div class="large-number">0</div><div class="panel-sub">No cloud machines provisioned</div></div>
+      <div class="panel"><div class="panel-head"><h3>Execution requirements</h3><span class="badge warn">NOT DEPLOYED</span></div><div class="list"><div class="row-card"><div class="row-main"><b>MT5 terminal runtime</b><small>Windows-compatible execution environment</small></div></div><div class="row-card"><div class="row-main"><b>Secure credential vault</b><small>Encrypted secrets and restricted access</small></div></div><div class="row-card"><div class="row-main"><b>Health checks</b><small>Heartbeat, logs and restart policy</small></div></div></div></div>
+    </div>
+    <div class="notice">A website cannot keep an MT5 robot trading by itself. Continuous cloud hosting needs an always-on computer or server. We can keep the prototype free, but free hosting cannot be promised for reliable 24/7 execution.</div>
+  </section>
+
+  <section class="view" id="view-licenses">
+    <div class="grid two-col">
+      <div class="panel"><div class="panel-head"><div><h3>Licence Centre</h3><div class="panel-sub">Create sample keys for interface testing.</div></div><button class="btn primary" id="generateKey">＋ Generate key</button></div><div class="notice">Demo only: keys generated here are stored in this browser and are not secure or recognised by any EA. Real licensing needs a server-side signing and validation system.</div><div class="table-wrap"><table><thead><tr><th>Licence key</th><th>Created</th><th>Status</th></tr></thead><tbody id="licenseTable"><tr><td colspan="3" class="muted">No demo keys created.</td></tr></tbody></table></div></div>
+      <div class="panel"><h3>Licence controls</h3><div class="panel-sub">Planned server-side controls</div><div class="list" style="margin-top:14px"><div class="row-card"><div class="row-main"><b>Generate / revoke keys</b><small>Admin-only permissions</small></div></div><div class="row-card"><div class="row-main"><b>Bind to account or terminal</b><small>Broker login and EA identity checks</small></div></div><div class="row-card"><div class="row-main"><b>Expiry and usage limits</b><small>Time-limited and seat-limited licences</small></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-analytics">
+    <div class="grid stats"><div class="stat"><div class="stat-head">TOTAL TRADES</div><div class="stat-value">—</div><div class="stat-note">Awaiting verified data</div></div><div class="stat"><div class="stat-head">WIN RATE</div><div class="stat-value">—</div><div class="stat-note">Awaiting verified data</div></div><div class="stat"><div class="stat-head">NET PROFIT</div><div class="stat-value">—</div><div class="stat-note">Awaiting verified data</div></div><div class="stat"><div class="stat-head">DRAWDOWN</div><div class="stat-value">—</div><div class="stat-note">Awaiting verified data</div></div></div>
+    <div class="panel"><div class="panel-head"><div><h3>Performance analytics</h3><div class="panel-sub">No account data has been connected.</div></div><span class="badge off">NO DATA</span></div><div class="empty"><strong>Analytics will appear here</strong>Connect an MT5 account and choose a reporting period to view real performance metrics. Sample figures are intentionally not presented as real results.</div></div>
+  </section>
+
+  <section class="view" id="view-notifications">
+    <div class="panel"><div class="panel-head"><div><h3>Notifications Centre</h3><div class="panel-sub">Platform notices and future account alerts.</div></div><button class="btn ghost" id="clearNotices">Clear demo notices</button></div><div class="list" id="noticeList"></div></div>
+  </section>
+
+
+  <section class="view" id="view-ea-studio">
+    <div class="hero"><div class="hero-content"><div class="eyebrow">SUPER ADMIN WORKSPACE</div><h2>EA Development Studio</h2><p>Create and edit EA source projects, save local drafts, and download MQL source files for compilation in MetaEditor.</p><span class="badge warn">LOCAL EDITOR · NOT A COMPILER</span></div></div>
+    <div class="notice blue">This editor runs in your browser. Projects are saved only on this device. It does not compile code, connect to MetaTrader, deploy robots or enforce Super Admin permissions yet.</div>
+    <div class="studio-layout">
+      <div class="panel"><div class="panel-head"><div><h3>EA projects</h3><div class="panel-sub">Saved in this browser</div></div><button class="btn primary" id="newEaProject">＋ New</button></div><div class="list" id="eaProjectList"><div class="empty"><strong>No saved projects</strong>Create your first EA project.</div></div><div class="notice">Import `.mq5` or `.mq4` source files. Compiled `.ex5` files are not editable source code.</div></div>
+      <div class="panel"><div class="panel-head"><div><h3>Source code editor</h3><div class="panel-sub">MQL source draft</div></div><span class="badge warn" id="eaSaveStatus">UNSAVED</span></div>
+        <div class="form-grid"><div class="field"><label for="eaProjectName">PROJECT NAME</label><input id="eaProjectName" value="My First EA"></div><div class="field"><label for="eaProjectVersion">VERSION</label><input id="eaProjectVersion" value="1.0"></div></div>
+        <div class="field" style="margin-top:10px"><label for="eaPlatform">PLATFORM</label><select id="eaPlatform"><option value="MT5">MetaTrader 5 · MQL5</option><option value="MT4">MetaTrader 4 · MQL4</option></select></div>
+        <div class="studio-toolbar"><button class="btn primary" id="saveEaProject">Save project</button><button class="btn" id="downloadEaProject">Download source</button><button class="btn ghost" id="importEaProject">Import .mq5/.mq4</button><input id="eaImportFile" type="file" accept=".mq5,.mq4,.txt" hidden></div>
+        <textarea class="code-editor" id="eaCodeEditor" spellcheck="false" aria-label="EA source code editor">//+------------------------------------------------------------------+
+//| My First EA - starter template                                   |
+//+------------------------------------------------------------------+
+#property strict
+#property version   "1.00"
+
+int OnInit()
+{
+   Print("EA initialised. Test safely in Strategy Tester/demo.");
+   return(INIT_SUCCEEDED);
+}
+
+void OnTick()
+{
+   // Add and test your strategy logic here.
+   // This starter template does not place trades.
+}
+
+void OnDeinit(const int reason)
+{
+   Print("EA stopped.");
+}</textarea>
+        <div class="form-actions"><button class="btn ghost" data-go="admin">Back to Super Admin</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-admin">
+    <div class="grid two-col">
+      <div class="panel"><h3>Super Admin Dashboard</h3><div class="panel-sub">Administrative workspace preview</div><div class="list" style="margin-top:14px"><div class="row-card"><div class="row-main"><b>Client accounts</b><small>Registration and role management — backend required</small></div><span class="badge warn">PLANNED</span></div><div class="row-card"><div class="row-main"><b>Robot catalogue</b><small>Manage approved EA packages</small></div><span class="badge ok">UI READY</span></div><div class="row-card"><div class="row-main"><b>Broker integrations</b><small>Enable only tested connectors</small></div><span class="badge warn">PLANNED</span></div><div class="row-card"><div class="row-main"><b>Security and audit logs</b><small>Admin actions and access history</small></div><span class="badge warn">PLANNED</span></div><div class="row-card"><div class="row-main"><b>EA Development Studio</b><small>Create, edit, save and export EA source projects</small></div><button class="btn primary" data-go="ea-studio">Open Studio</button></div></div></div>
+      <div class="panel"><h3>Workspace settings</h3><div class="panel-sub">Brand and app information</div><div style="margin-top:15px"><div class="field"><label>PLATFORM NAME</label><input value="EA LUBHO" readonly></div><div class="field" style="margin-top:12px"><label>INITIAL PLATFORM</label><input value="MetaTrader 5 (MT5)" readonly></div><div class="field" style="margin-top:12px"><label>APP VERSION</label><input value="Prototype 0.2" readonly></div></div><div class="notice blue">Admin credentials and client passwords must be handled by secure server authentication. Do not put passwords or secret keys inside this HTML file.</div></div>
+    </div>
+  </section>
+</main>
+<nav class="mobile-nav" id="mobileNav">
+  <button class="active" data-view="overview"><span>⌂</span>HOME</button>
+  <button data-view="robots"><span>◈</span>ROBOTS</button>
+  <button data-view="brokers"><span>◎</span>BROKERS</button>
+  <button data-view="trades"><span>↗</span>TRADES</button>
+  <button data-view="admin"><span>⚙</span>ADMIN</button>
+</nav>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true"><div class="panel-head"><div><h3 id="modalTitle">Add item</h3><p id="modalDesc">Demo information only.</p></div><button class="btn ghost" id="closeModal">✕</button></div><form id="modalForm"><div id="modalFields" class="form-grid"></div><div class="form-actions"><button type="button" class="btn ghost" id="cancelModal">Cancel</button><button class="btn primary" type="submit">Save locally</button></div></form></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{return JSON.parse(localStorage.getItem('lubho_'+k))??d}catch{return d}},set(k,v){localStorage.setItem('lubho_'+k,JSON.stringify(v))}};
+let robots=store.get('robots',[
+ {name:'LUBHO Core',platform:'MT5',version:'1.0',mode:'Demo',status:'Draft'},
+ {name:'Jumbo Scalper',platform:'MT5',version:'3.0',mode:'Demo',status:'Draft'}
+]);
+let brokers=store.get('brokers',[]), licenses=store.get('licenses',[]);
+let notices=store.get('notices',[
+ {title:'Welcome to EA LUBHO',detail:'Your responsive platform prototype is ready to explore.',time:'Just now',type:'info'},
+ {title:'Broker connector not connected',detail:'No broker credentials or terminal sessions are connected in this build.',time:'System notice',type:'warning'},
+ {title:'Cloud hosting not deployed',detail:'Continuous EA execution requires an MT5 runtime on an always-on host.',time:'System notice',type:'warning'}
+]);
+const titles={overview:'Overview',robots:'Master Robot Hub','lubho-core':'LUBHO Core','jumbo-scalper':'Jumbo Scalper',brokers:'Broker Connections',trades:'Live Trade Monitor',hosting:'EA Cloud Hosting',licenses:'Licence Centre',analytics:'Analytics Centre',notifications:'Notifications Centre',admin:'Super Admin Dashboard','ea-studio':'EA Development Studio'};
+function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function go(v){$$('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));$$('[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===v));$('#pageTitle').textContent=titles[v]||'EA LUBHO';window.scrollTo({top:0,behavior:'smooth'});}
+$$('[data-view]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.robot-open-card')){e.preventDefault();go(e.target.dataset.go)}});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+function save(){store.set('robots',robots);store.set('brokers',brokers);store.set('licenses',licenses);store.set('notices',notices);render()}
+function render(){
+ $('#robotCount').textContent=robots.length;$('#brokerCount').textContent=brokers.length;$('#licenseCount').textContent=licenses.length;
+ $('#overviewRobots').innerHTML=robots.slice(0,4).map(r=>{const target=r.name==='LUBHO Core'?'lubho-core':r.name==='Jumbo Scalper'?'jumbo-scalper':'robots';return `<div class="row-card robot-open-card" role="button" tabindex="0" data-go="${target}" aria-label="Open ${esc(r.name)}"><span class="robot-icon">◈</span><div class="row-main"><b>${esc(r.name)}</b><small>${esc(r.platform)} · v${esc(r.version)} · ${esc(r.mode)}</small></div><span class="badge warn">${esc(r.status)}</span><span class="btn ghost">Open →</span></div>`}).join('')||'<div class="empty">No robots registered.</div>';
+ $('#robotTable').innerHTML=robots.map((r,i)=>{const target=r.name==='LUBHO Core'?'lubho-core':r.name==='Jumbo Scalper'?'jumbo-scalper':'robots';return `<tr><td><b>${esc(r.name)}</b></td><td>${esc(r.platform)}</td><td>${esc(r.version)}</td><td>${esc(r.mode)}</td><td><span class="badge warn">${esc(r.status)}</span></td><td><button class="btn ghost" data-go="${target}">Open</button> <button class="btn ghost" data-delete-robot="${i}">Remove</button></td></tr>`}).join('')||'<tr><td colspan="6" class="muted">No robots registered yet.</td></tr>';
+ $('#brokerList').innerHTML=brokers.map((b,i)=>`<div class="row-card"><span class="robot-icon">◎</span><div class="row-main"><b>${esc(b.broker)}</b><small>${esc(b.platform)} · ${esc(b.accountType)} · ${esc(b.server||'Server not specified')}</small></div><span class="badge off">PROFILE ONLY</span><button class="btn ghost" data-delete-broker="${i}">×</button></div>`).join('')||'<div class="empty"><strong>No broker profiles yet</strong>Add a profile to organise a connection. Do not enter your trading password in this prototype.</div>';
+ $('#licenseTable').innerHTML=licenses.map(l=>`<tr><td style="font-family:monospace">${esc(l.key)}</td><td>${esc(l.date)}</td><td><span class="badge warn">DEMO ONLY</span></td></tr>`).join('')||'<tr><td colspan="3" class="muted">No demo keys created.</td></tr>';
+ $('#noticeList').innerHTML=notices.map(n=>`<div class="row-card"><span class="robot-icon">${n.type==='warning'?'!':'i'}</span><div class="row-main"><b>${esc(n.title)}</b><small>${esc(n.detail)}</small></div><div class="row-end"><small>${esc(n.time)}</small></div></div>`).join('')||'<div class="empty">No notices.</div>';
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let modalMode='';
+function openModal(mode){modalMode=mode;const configs={
+ robot:{title:'Register a robot',desc:'Add a local catalogue entry. This does not upload or execute EA files.',fields:[['name','Robot name','text','e.g. LUBHO Core'],['version','Version','text','e.g. 1.0'],['platform','Platform','select',['MT5','MT4']],['mode','Testing mode','select',['Demo','Backtest','Live-ready (not connected)']]]},
+ broker:{title:'Add broker profile',desc:'Profile only. Never enter your trading password here.',fields:[['broker','Broker name','text','e.g. JustMarkets'],['platform','Platform','select',['MT5','MT4']],['accountType','Account type','select',['Demo','Live']],['server','Server label (optional)','text','e.g. Broker-Server']]}
+}[mode];$('#modalTitle').textContent=config.title;$('#modalDesc').textContent=config.desc;$('#modalFields').innerHTML=config.fields.map(([id,label,type,extra])=>`<div class="field"><label for="${id}">${label.toUpperCase()}</label>${type==='select'?`<select id="${id}">${extra.map(x=>`<option>${x}</option>`).join('')}</select>`:`<input id="${id}" type="${type}" placeholder="${extra}" required>`}</div>`).join('');$('#modalBackdrop').classList.add('open')}
+function closeModal(){$('#modalBackdrop').classList.remove('open')}
+$('#addRobot').onclick=()=>openModal('robot');$('#addBroker').onclick=()=>openModal('broker');
+$('#closeModal').onclick=$('#cancelModal').onclick=closeModal;
+$('#modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});
+$('#modalForm').onsubmit=e=>{e.preventDefault();const data={};$$('#modalFields input,#modalFields select').forEach(x=>data[x.id]=x.value);if(modalMode==='robot')robots.push({...data,status:'Draft'});else brokers.push(data);save();closeModal();toast('Saved in this browser only.')};
+$('#robotTable').addEventListener('click',e=>{const b=e.target.closest('[data-delete-robot]');if(b){robots.splice(+b.dataset.deleteRobot,1);save();toast('Robot removed from local list.')}});
+$('#brokerList').addEventListener('click',e=>{const b=e.target.closest('[data-delete-broker]');if(b){brokers.splice(+b.dataset.deleteBroker,1);save();toast('Broker profile removed.')}});
+$('#generateKey').onclick=()=>{const bytes=new Uint8Array(12);if(crypto?.getRandomValues)crypto.getRandomValues(bytes);else for(let i=0;i<12;i++)bytes[i]=Math.random()*256;const key='LUBHO-DEMO-'+[...bytes].map(x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();licenses.unshift({key,date:new Date().toLocaleDateString()});save();toast('Demo key generated locally — not server validated.')};
+$('#clearNotices').onclick=()=>{notices=[];save();toast('Demo notices cleared.')};
+let installPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('#installSide').hidden=false});
+$('#installSide').onclick=async()=>{if(!installPrompt){toast('Use your browser menu and choose Install app or Add to Home Screen.');return}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null};
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+render();
+
+// EA Development Studio: local source drafts only; no compiler or MT5 connection.
+let eaProjects=store.get('ea_projects',[]);
+let currentEaProjectId=null;
+const starterSource=`#property strict
+#property version "1.00"
+int OnInit(){ Print("EA initialised - test in Strategy Tester/demo."); return(INIT_SUCCEEDED); }
+void OnTick(){ /* Add strategy logic here. This template does not place trades. */ }
+void OnDeinit(const int reason){ Print("EA stopped."); }`;
+function renderEaProjects(){
+ const list=$('#eaProjectList'); if(!list)return;
+ list.innerHTML=eaProjects.map(p=>`<button class="row-card" style="width:100%;text-align:left;color:inherit" data-load-ea="${esc(p.id)}"><span class="robot-icon">⌘</span><span class="row-main"><b>${esc(p.name)}</b><small>${esc(p.platform)} · v${esc(p.version)} · ${esc(p.updated||'Draft')}</small></span><span class="badge">OPEN</span></button>`).join('')||'<div class="empty"><strong>No saved projects</strong>Create your first EA project.</div>';
+}
+function saveEaProject(){
+ const p={id:currentEaProjectId||('ea_'+Date.now()),name:$('#eaProjectName').value.trim()||'Untitled EA',version:$('#eaProjectVersion').value.trim()||'1.0',platform:$('#eaPlatform').value,code:$('#eaCodeEditor').value,updated:new Date().toLocaleString()};
+ const i=eaProjects.findIndex(x=>x.id===p.id); if(i>=0)eaProjects[i]=p;else eaProjects.unshift(p);
+ currentEaProjectId=p.id;store.set('ea_projects',eaProjects);$('#eaSaveStatus').textContent='SAVED LOCALLY';renderEaProjects();toast('EA source project saved in this browser.');
+}
+function newEaProject(){currentEaProjectId=null;$('#eaProjectName').value='New EA Project';$('#eaProjectVersion').value='1.0';$('#eaPlatform').value='MT5';$('#eaCodeEditor').value=starterSource;$('#eaSaveStatus').textContent='UNSAVED';}
+$('#newEaProject').onclick=newEaProject;
+$('#saveEaProject').onclick=saveEaProject;
+$('#downloadEaProject').onclick=()=>{
+ const ext=$('#eaPlatform').value==='MT4'?'mq4':'mq5';
+ const name=($('#eaProjectName').value.trim()||'EA_Project').replace(/[^a-z0-9_-]+/gi,'_');
+ const url=URL.createObjectURL(new Blob([$('#eaCodeEditor').value],{type:'text/plain;charset=utf-8'}));
+ const a=document.createElement('a');a.href=url;a.download=name+'.'+ext;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+ toast('Source download prepared. Compile it in MetaEditor.');
+};
+$('#importEaProject').onclick=()=>$('#eaImportFile').click();
+$('#eaImportFile').addEventListener('change',async e=>{
+ const f=e.target.files&&e.target.files[0];if(!f)return;
+ $('#eaCodeEditor').value=await f.text();$('#eaProjectName').value=f.name.replace(/\.(mq5|mq4|txt)$/i,'');
+ $('#eaPlatform').value=/\.mq4$/i.test(f.name)?'MT4':'MT5';currentEaProjectId=null;$('#eaSaveStatus').textContent='IMPORTED · UNSAVED';e.target.value='';
+});
+$('#eaProjectList').addEventListener('click',e=>{
+ const b=e.target.closest('[data-load-ea]');if(!b)return;const p=eaProjects.find(x=>x.id===b.dataset.loadEa);if(!p)return;
+ currentEaProjectId=p.id;$('#eaProjectName').value=p.name;$('#eaProjectVersion').value=p.version;$('#eaPlatform').value=p.platform;$('#eaCodeEditor').value=p.code;$('#eaSaveStatus').textContent='SAVED LOCALLY';
+});
+['eaCodeEditor','eaProjectName','eaProjectVersion'].forEach(id=>$('#'+id).addEventListener('input',()=>$('#eaSaveStatus').textContent='UNSAVED'));
+renderEaProjects();
+
+// Jumbo Scalper configuration and demo workspace toggle are local UI only.
+let jumboEnabled=store.get('jumbo_demo_enabled',false);
+let jumboSettings=store.get('jumbo_settings',{symbol:'XAUUSD',timeframe:'M5',risk:'0.5',maxTrades:'2'});
+function renderJumbo(){
+ $('#jumboSymbol').value=jumboSettings.symbol;$('#jumboTimeframe').value=jumboSettings.timeframe;$('#jumboRisk').value=jumboSettings.risk;$('#jumboMaxTrades').value=jumboSettings.maxTrades;
+ $('#jumboStatus').textContent=jumboEnabled?'DEMO WORKSPACE ENABLED · NO MT5':'NOT CONNECTED · DEMO UI';
+ $('#jumboDemoToggle').textContent=jumboEnabled?'Disable demo workspace':'Enable demo workspace';
+}
+$('#saveJumboSettings').onclick=()=>{jumboSettings={symbol:$('#jumboSymbol').value.trim(),timeframe:$('#jumboTimeframe').value,risk:$('#jumboRisk').value,maxTrades:$('#jumboMaxTrades').value};store.set('jumbo_settings',jumboSettings);toast('Jumbo settings saved locally only.');};
+$('#jumboDemoToggle').onclick=()=>{jumboEnabled=!jumboEnabled;store.set('jumbo_demo_enabled',jumboEnabled);renderJumbo();toast(jumboEnabled?'Demo workspace display enabled. No trades are started.':'Demo workspace display disabled.');};
+renderJumbo();
+
+</script>
+</body>
+</html>
